@@ -1,0 +1,32 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "hello-docker-chart.fullname" . }}-{{ .Values.tracerBoxThree.name }}
+  labels:
+    app: {{ template "hello-docker-chart.name" . }}
+    chart: {{ template "hello-docker-chart.chart" . }}
+    component: "{{ .Values.tracerBoxThree.name }}"
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ "tracer-box-three" }}
+      component: "{{ .Values.tracerBoxThree.name }}"
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ "tracer-box-three" }}
+        component: "{{ .Values.tracerBoxThree.name }}"
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-{{ .Values.tracerBoxThree.name}}
+          image: "{{ .Values.tracerBoxThree.image.repository }}:{{ .Values.tracerBoxThree.image.tag }}"
+          imagePullPolicy: {{ .Values.tracerBoxThree.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8999
+              protocol: TCP

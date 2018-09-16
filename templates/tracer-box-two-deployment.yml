@@ -1,0 +1,32 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "hello-docker-chart.fullname" . }}-{{ .Values.tracerBoxTwo.name }}
+  labels:
+    app: {{ template "hello-docker-chart.name" . }}
+    chart: {{ template "hello-docker-chart.chart" . }}
+    component: "{{ .Values.tracerBoxTwo.name }}"
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ "tracer-box-two" }}
+      component: "{{ .Values.tracerBoxTwo.name }}"
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ "tracer-box-two" }}
+        component: "{{ .Values.tracerBoxTwo.name }}"
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-{{ .Values.tracerBoxTwo.name}}
+          image: "{{ .Values.tracerBoxTwo.image.repository }}:{{ .Values.tracerBoxTwo.image.tag }}"
+          imagePullPolicy: {{ .Values.tracerBoxOne.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8998
+              protocol: TCP

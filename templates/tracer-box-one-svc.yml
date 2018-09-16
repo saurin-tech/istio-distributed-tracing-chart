@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "hello-docker-chart.fullname" . }}-{{ .Values.tracerBoxOne.name }}
+  labels:
+    app: {{ template "hello-docker-chart.name" . }}
+    chart: {{ template "hello-docker-chart.chart" . }}
+    component: "{{ .Values.tracerBoxOne.name }}"
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.tracerBoxOne.service.type }}
+  ports:
+    - port: {{ .Values.tracerBoxOne.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+      nodePort: {{ .Values.tracerBoxOne.service.nodePort }}
+  selector:
+    app: {{ "tracer-box-one" }}
+    component: "{{ .Values.tracerBoxOne.name }}"
+    release: {{ .Release.Name }}

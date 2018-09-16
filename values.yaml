@@ -1,0 +1,42 @@
+# Default values for istio-distributed-tracing-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Tracer-Box-One
+tracerBoxOne:
+  name: tracer-box-one
+  image:
+    repository: saurinp12/tracer-box-one
+    tag: 0.0.1-SNAPSHOT
+    pullPolicy: IfNotPresent
+
+  service:
+    type: NodePort
+    port: 8997
+    nodePort: 30002
+
+# Tracer-Box-Two
+tracerBoxTwo:
+  name: tracer-box-two
+  image:
+    repository: saurinp12/tracer-box-two
+    tag: 0.0.1-SNAPSHOT
+    pullPolicy: IfNotPresent
+
+  service:
+    type: NodePort
+    port: 8998
+    nodePort: 30003
+  
+# Tracer-Box-Three
+tracerBoxThree:
+  name: tracer-box-three
+  image:
+    repository: saurinp12/tracer-box-three
+    tag: 0.0.1-SNAPSHOT
+    pullPolicy: IfNotPresent
+
+  service:
+    type: NodePort
+    port: 8999
+    nodePort: 30004
